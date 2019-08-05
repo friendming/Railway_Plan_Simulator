@@ -12,8 +12,8 @@ int main() {
 
 	screenSetup();//初始化界面
 	string teststring1 = "Railway Plan Simulator";
-	strcpy_s(TCHAR s)
-	TCHAR s[] = _T("Hello World");
+	char s[24];
+	strcpy_s(s,teststring1.c_str());
 	outtextxy(10, 20, s);
 	while (1) {
 
@@ -42,6 +42,14 @@ void screenSetup() {
 	//按钮构建及绘制
 	string teststring = "test";
 	Button testbutton(50, 50, 100, 30, 1, teststring);
+	string get_teststring = testbutton.get_Button_Text();
+	char s1[30];
+	strcpy_s(s1, get_teststring.c_str());
+	outtextxy(10, 50, s1);
+	char s2[30];
+	strcpy_s(s2, teststring.c_str());
+	outtextxy(10, 70, s2);
+
 
 	//轨道构建测试
 	Rail testrail;

@@ -42,10 +42,9 @@ Button::Button(int x, int y, int width, int height, char visable,string text) {
 	button_y = y;
 	button_width = width;
 	button_height = height;
-	button_text = "Button";
+	button_text = text;
 	button_type = 0;
 	button_visable = visable;
-	button_text = text;
 	button_centered = 1;//按钮默认居中
 	show_Button();
 }
@@ -98,16 +97,17 @@ void Button::show_Button() {
 		}
 
 		//绘制文字(只显示一行 不支持换行 文字过长会超出button）
+		char s[51];//文字长度限制50个字符
+		strcpy_s(s, button_text.c_str());
 		switch (button_centered) {
-			TCHAR s[30];//文字长度最大30
-			strcpy_s(s, button_text.c_str());
 		case 0://不居中
 			outtextxy(button_x, button_y, s);
 			break;
 		case 1://居中
-			int resule_button_text_x = button_x + textwidth(s)*0.5;
-			int result_button_text_y = button_y + textheight(s)*0.5;
+			int resule_button_text_x = button_x - textwidth(s)*0.5 + button_width*0.5;
+			int result_button_text_y = button_y - textheight(s)*0.5 + button_height*0.5;
 			outtextxy(resule_button_text_x, result_button_text_y, s);
+			break;
 		}
 	}
 }
