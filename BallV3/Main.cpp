@@ -14,7 +14,7 @@ int main() {
 	string teststring1 = "Railway Plan Simulator";
 	char s[24];
 	strcpy_s(s,teststring1.c_str());
-	outtextxy(10, 20, s);
+	outtextxy(10, 10, s);
 	while (1) {
 
 		while (MouseHit()) {//这句非常重要，有消息时进行操作，鼠标操作流畅不卡顿
@@ -43,16 +43,9 @@ void screenSetup() {
 	string teststring = "test";
 	Button testbutton(50, 50, 100, 30, 1, teststring);
 	string get_teststring = testbutton.get_Button_Text();
-	char s1[30];
-	strcpy_s(s1, get_teststring.c_str());
-	outtextxy(10, 50, s1);
-	char s2[30];
-	strcpy_s(s2, teststring.c_str());
-	outtextxy(10, 70, s2);
-
 
 	//轨道构建测试
-	Rail testrail;
-	testrail.set_Rail_Data(0.2, 0.5, 100, 100, 200, 200);
-
+	Rail rails[50];
+	rails[0].set_Rail_Data(0.8, 0.2, 100, 200, 200, 200);
+	rails[0].show_Rail();
 }

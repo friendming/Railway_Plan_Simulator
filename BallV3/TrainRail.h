@@ -11,8 +11,8 @@ using namespace std;
 class Rail {
 public:
 	Rail();
-	Rail(int stangle, int endangle, int st_x, int st_y, int end_x, int end_y);
-	void set_Rail_Data(int stangle, int endangle, int st_x, int st_y, int end_x, int end_y) { Rail(stangle, endangle, st_x, st_y, end_x, end_y); }
+	Rail(double stangle, double endangle, int st_x, int st_y, int end_x, int end_y);
+	void set_Rail_Data(double stangle, double endangle, int st_x, int st_y, int end_x, int end_y);
 	int get_Rail_Length();
 	double get_Rail_Stangle();
 	double get_Rail_Endangle();
@@ -48,7 +48,17 @@ Rail::Rail() {
 
 }
 
-Rail::Rail(int stangle, int endangle, int st_x, int st_y, int end_x, int end_y) {
+Rail::Rail(double stangle, double endangle, int st_x, int st_y, int end_x, int end_y) {
+	rail_stangle = stangle;
+	rail_endangle = endangle;
+	rail_st_x = st_x;
+	rail_st_y = st_y;
+	rail_end_x = end_x;
+	rail_end_y = end_y;
+	calculate_Rail_Data();
+}
+
+void Rail::set_Rail_Data(double stangle, double endangle, int st_x, int st_y, int end_x, int end_y) {
 	rail_stangle = stangle;
 	rail_endangle = endangle;
 	rail_st_x = st_x;
@@ -62,17 +72,17 @@ void Rail::calculate_Rail_Data() {
 	result_rail_angle = rail_stangle - rail_endangle;//计算角度
 	if (result_rail_angle == 0) {
 		result_rail_type = 0;
-		result_rail_length= sqrt(fabs(rail_end_x - rail_st_x) + fabs(rail_end_y - rail_st_y));//计算长度
+		result_rail_length= sqrt(fabs(rail_end_x - rail_st_x)*fabs(rail_end_x - rail_st_x) + fabs(rail_end_y - rail_st_y)*fabs(rail_end_y - rail_st_y));//计算长度
 	}
 	else {
 		result_rail_type = 1;
-		result_rail_st_end_distance = sqrt(fabs(rail_end_x - rail_st_x) + fabs(rail_end_y - rail_st_y));//计算起点终点间距
+		result_rail_st_end_distance = sqrt(fabs(rail_end_x - rail_st_x)*fabs(rail_end_x - rail_st_x) + fabs(rail_end_y - rail_st_y)*fabs(rail_end_y - rail_st_y));//计算起点终点间距
 		result_rail_r = 0.5*result_rail_st_end_distance / sin(0.5 - result_rail_angle * 0.5);//计算半径
 		result_rail_length = result_rail_r * 3.1415926 * result_rail_angle;//计算弧长 长度
 		result_rail_d = 0.5*result_rail_st_end_distance / tan(0.5 - result_rail_angle * 0.5);
 		result_rail_r_nag_d = result_rail_r - result_rail_d;
 		result_rail_sin_st_end_distance = sin(rail_stangle - 0.5)*0.5*result_rail_st_end_distance;
-		result_rail_height = sin(rail_stangle - 0.5)* (result_rail_r_nag_d + result_rail_sin_st_end_distance);
+		result_rail_height = sin(rail_stangle - 0.5)* (result_rail_r_nag_d + result_rail_sin_st_end_distance);//外切矩形高
 		result_rail_width = sin(rail_stangle - 0.5)*result_rail_st_end_distance; //外切矩形宽
 	}
 }
@@ -94,12 +104,13 @@ char Rail::get_Rail_Type() {
 }
 
 int Rail::show_Rail() {//显示轨道
+	double a = result_rail_length;
 	if (result_rail_length > 0) {//长度不是0
-		if (result_rail_type == 0) {//直的
+		if (result_rail_type != 1) {//直的
 			line(rail_st_x, rail_st_y, rail_end_x, rail_end_y);
 		}
 		else {//♂van♂的
-
+			//arc(rail_st_x,rail_st_y,rail_end_x)
 		}
 		return 0;
 	}

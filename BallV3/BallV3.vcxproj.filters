@@ -26,5 +26,8 @@
     <ClInclude Include="TrainRail.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="newRail.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
